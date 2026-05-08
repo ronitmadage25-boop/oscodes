@@ -1,0 +1,44 @@
+import java.util.*;
+
+public class SumOfSubsets {
+
+    static void findSubsets(int arr[], int index, int sum, ArrayList<Integer> list) {
+
+        if (sum == 0) {
+            System.out.println(list);
+            return;
+        }
+
+        for (int i = index; i < arr.length; i++) {
+
+            if (arr[i] <= sum) {
+                list.add(arr[i]);
+
+                findSubsets(arr, i + 1, sum - arr[i], list);
+
+                list.remove(list.size() - 1);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of elements: ");
+        int n = sc.nextInt();
+
+        int arr[] = new int[n];
+
+        System.out.println("Enter elements:");
+
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        System.out.print("Enter target sum: ");
+        int sum = sc.nextInt();
+
+        System.out.println("Possible Subsets:");
+
+        findSubsets(arr, 0, sum, new ArrayList<Integer>());
+    }
+}

@@ -1,0 +1,55 @@
+import java.util.*;
+
+public class BipartiteMatching {
+
+    static boolean bpm(boolean graph[][], int u, boolean seen[], int matchR[]) {
+
+        for (int v = 0; v < graph[0].length; v++) {
+
+            if (graph[u][v] && !seen[v]) {
+                seen[v] = true;
+
+                if (matchR[v] < 0 || bpm(graph, matchR[v], seen, matchR)) {
+                    matchR[v] = u;
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of applicants: ");
+        int m = sc.nextInt();
+
+        System.out.print("Enter number of jobs: ");
+        int n = sc.nextInt();
+
+        boolean graph[][] = new boolean[m][n];
+
+        System.out.println("Enter adjacency matrix (0 or 1):");
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                graph[i][j] = sc.nextInt() == 1;
+            }
+        }
+
+        int matchR[] = new int[n];
+        Arrays.fill(matchR, -1);
+
+        int result = 0;
+
+        for (int u = 0; u < m; u++) {
+            boolean seen[] = new boolean[n];
+
+            if (bpm(graph, u, seen, matchR))
+                result++;
+        }
+
+        System.out.println("Maximum Matching: " + result);
+    }
+}

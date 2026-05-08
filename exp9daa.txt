@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class RabinKarp {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter Text: ");
+        String text = sc.nextLine();
+
+        System.out.print("Enter Pattern: ");
+        String pattern = sc.nextLine();
+
+        int n = text.length();
+        int m = pattern.length();
+
+        boolean found = false;
+
+        for (int i = 0; i <= n - m; i++) {
+            String sub = text.substring(i, i + m);
+
+            if (sub.equals(pattern)) {
+                System.out.println("Pattern found at position: " + i);
+                found = true;
+            }
+        }
+
+        if (!found)
+            System.out.println("Pattern not found");
+    }
+}

@@ -1,0 +1,72 @@
+import java.util.*;
+
+public class FordFulkerson {
+
+    static boolean bfs(int graph[][], int source, int sink, int parent[]) {
+        int n = graph.length;
+
+        boolean visited[] = new boolean[n];
+        Queue<Integer> q = new LinkedList<>();
+
+        q.add(source);
+        visited[source] = true;
+        parent[source] = -1;
+
+        while (!q.isEmpty()) {
+            int u = q.poll();
+
+            for (int v = 0; v < n; v++) {
+                if (!visited[v] && graph[u][v] > 0) {
+                    q.add(v);
+                    parent[v] = u;
+                    visited[v] = true;
+                }
+            }
+        }
+
+        return visited[sink];
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of vertices: ");
+        int n = sc.nextInt();
+
+        int graph[][] = new int[n][n];
+
+        System.out.println("Enter capacity matrix:");
+
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                graph[i][j] = sc.nextInt();
+
+        System.out.print("Enter source vertex: ");
+        int source = sc.nextInt();
+
+        System.out.print("Enter sink vertex: ");
+        int sink = sc.nextInt();
+
+        int parent[] = new int[n];
+        int maxFlow = 0;
+
+        while (bfs(graph, source, sink, parent)) {
+            int pathFlow = Integer.MAX_VALUE;
+
+            for (int v = sink; v != source; v = parent[v]) {
+                int u = parent[v];
+                pathFlow = Math.min(pathFlow, graph[u][v]);
+            }
+
+            for (int v = sink; v != source; v = parent[v]) {
+                int u = parent[v];
+                graph[u][v] -= pathFlow;
+                graph[v][u] += pathFlow;
+            }
+
+            maxFlow += pathFlow;
+        }
+
+        System.out.println("Maximum Flow is: " + maxFlow);
+    }
+}

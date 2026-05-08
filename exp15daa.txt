@@ -1,0 +1,30 @@
+import java.util.*;
+
+public class Puzzle15 {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int puzzle[][] = new int[4][4];
+
+        System.out.println("Enter 4x4 Puzzle Matrix:");
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                puzzle[i][j] = sc.nextInt();
+            }
+        }
+
+        System.out.println("Puzzle Matrix:");
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                System.out.print(puzzle[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("15 Puzzle uses Branch and Bound technique.");
+    }
+}

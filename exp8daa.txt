@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class BellmanFord {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter vertices and edges: ");
+        int V = sc.nextInt();
+        int E = sc.nextInt();
+
+        int edges[][] = new int[E][3];
+
+        System.out.println("Enter source destination weight:");
+        for (int i = 0; i < E; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+            edges[i][2] = sc.nextInt();
+        }
+
+        System.out.print("Enter source vertex: ");
+        int src = sc.nextInt();
+
+        int dist[] = new int[V];
+        Arrays.fill(dist, 99999);
+        dist[src] = 0;
+
+        for (int i = 1; i < V; i++) {
+            for (int j = 0; j < E; j++) {
+                int u = edges[j][0];
+                int v = edges[j][1];
+                int w = edges[j][2];
+
+                if (dist[u] != 99999 && dist[u] + w < dist[v])
+                    dist[v] = dist[u] + w;
+            }
+        }
+
+        System.out.println("Shortest Distances:");
+        for (int i = 0; i < V; i++)
+            System.out.println(src + " -> " + i + " = " + dist[i]);
+    }
+}

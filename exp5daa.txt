@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Item {
+    int weight, value;
+    double ratio;
+
+    Item(int w, int v) {
+        weight = w;
+        value = v;
+        ratio = (double) v / w;
+    }
+}
+
+public class FractionalKnapsack {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of items: ");
+        int n = sc.nextInt();
+
+        Item items[] = new Item[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter weight and value: ");
+            int w = sc.nextInt();
+            int v = sc.nextInt();
+            items[i] = new Item(w, v);
+        }
+
+        System.out.print("Enter capacity: ");
+        int cap = sc.nextInt();
+
+        Arrays.sort(items, (a, b) -> Double.compare(b.ratio, a.ratio));
+
+        double profit = 0;
+
+        for (Item item : items) {
+            if (cap >= item.weight) {
+                cap -= item.weight;
+                profit += item.value;
+            } else {
+                profit += item.ratio * cap;
+                break;
+            }
+        }
+
+        System.out.println("Maximum Profit: " + profit);
+    }
+}
