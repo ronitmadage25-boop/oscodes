@@ -1,0 +1,53 @@
+File: math.h
+#ifndef MATH_H
+#define MATH_H
+
+typedef struct {
+    float real;
+    float imag;
+} Complex;
+
+float absolute(Complex c);
+float power_complex(Complex c);
+
+#endif
+File: setb2_math.c
+#include <math.h>
+#include "math.h"
+
+float absolute(Complex c) {
+
+    return sqrt(c.real*c.real + c.imag*c.imag);
+}
+
+float power_complex(Complex c) {
+
+    return (c.real*c.real + c.imag*c.imag);
+}
+File: setb2_test.c
+#include <stdio.h>
+#include "math.h"
+
+int main() {
+
+    Complex c = {3,4};
+
+    printf("Absolute Value = %.2f\n", absolute(c));
+
+    printf("Power = %.2f\n", power_complex(c));
+
+    return 0;
+}
+Commands
+
+Compile shared library:
+
+gcc -fPIC -shared -o libmath.so setb2_math.c
+
+Compile test:
+
+gcc setb2_test.c -L. -lmath -Wl,-rpath,. -o test
+
+Run:
+
+./test

@@ -1,0 +1,57 @@
+#include <stdio.h>
+
+int main() {
+
+    int bt[4] = {10,4,6,3};
+
+    int rt[4];
+
+    int tat[4];
+
+    int complete = 0;
+
+    int time = 0;
+
+    int quantum = 3;
+
+    for(int i=0; i<4; i++)
+        rt[i] = bt[i];
+
+    while(complete < 4) {
+
+        for(int i=0; i<4; i++) {
+
+            if(rt[i] > 0) {
+
+                if(rt[i] > quantum) {
+
+                    time += quantum;
+
+                    rt[i] -= quantum;
+                }
+
+                else {
+
+                    time += rt[i];
+
+                    tat[i] = time;
+
+                    rt[i] = 0;
+
+                    complete++;
+
+                    printf("J%d completed at %d\n", i+1, time);
+                }
+            }
+        }
+    }
+
+    float avg = 0;
+
+    for(int i=0; i<4; i++)
+        avg += tat[i];
+
+    printf("Average Turnaround Time = %.2f\n", avg/4);
+
+    return 0;
+}

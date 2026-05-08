@@ -1,0 +1,63 @@
+#include <stdio.h>
+
+int main() {
+
+    int alloc[3][2] = {
+        {1,0},
+        {0,1},
+        {1,1}
+    };
+
+    int request[3][2] = {
+        {0,1},
+        {1,0},
+        {1,1}
+    };
+
+    int avail[2] = {1,0};
+
+    int finish[3] = {0};
+
+    int count = 0;
+
+    while(count < 3) {
+
+        int found = 0;
+
+        for(int i=0; i<3; i++) {
+
+            if(!finish[i]) {
+
+                if(request[i][0] <= avail[0] &&
+                   request[i][1] <= avail[1]) {
+
+                    avail[0] += alloc[i][0];
+                    avail[1] += alloc[i][1];
+
+                    finish[i] = 1;
+
+                    found = 1;
+
+                    count++;
+                }
+            }
+        }
+
+        if(!found)
+            break;
+    }
+
+    if(count == 3)
+        printf("No deadlock detected\n");
+
+    else {
+
+        printf("Deadlock processes: ");
+
+        for(int i=0; i<3; i++)
+            if(!finish[i])
+                printf("P%d ", i);
+    }
+
+    return 0;
+}

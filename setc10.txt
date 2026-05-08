@@ -1,0 +1,30 @@
+#include <stdio.h>
+
+int main() {
+
+    unsigned int va = 0x00403004;
+
+    unsigned int l1 =
+        (va >> 22) & 0x3FF;
+
+    unsigned int l2 =
+        (va >> 12) & 0x3FF;
+
+    unsigned int offset =
+        va & 0xFFF;
+
+    printf("L1 Index = %u\n", l1);
+
+    printf("L2 Index = %u\n", l2);
+
+    printf("Offset = %u\n", offset);
+
+    int frame = 7;
+
+    unsigned int physical =
+        frame * 4096 + offset;
+
+    printf("Physical Address = %u\n", physical);
+
+    return 0;
+}

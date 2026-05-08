@@ -1,0 +1,70 @@
+File: geometry.h
+#ifndef GEOMETRY_H
+#define GEOMETRY_H
+
+typedef struct {
+    float real;
+    float imag;
+} Complex;
+
+float magnitude(Complex c);
+float phase(Complex c);
+
+#endif
+File: setc2_geometry.c
+#include <math.h>
+#include "geometry.h"
+
+float magnitude(Complex c) {
+
+    return sqrt(c.real*c.real + c.imag*c.imag);
+}
+
+float phase(Complex c) {
+
+    return atan2(c.imag, c.real);
+}
+File: setc2_main.c
+#include <stdio.h>
+#include "geometry.h"
+
+int main() {
+
+    Complex c = {3,4};
+
+    printf("Magnitude = %.2f\n", magnitude(c));
+
+    printf("Phase = %.2f\n", phase(c));
+
+    return 0;
+}
+Static Library Commands
+
+Compile object:
+
+gcc -c setc2_geometry.c -o geometry.o
+
+Create static library:
+
+ar rcs libgeometry.a geometry.o
+
+Compile main:
+
+gcc setc2_main.c -L. -lgeometry -lm -o static_test
+
+Run:
+
+./static_test
+Dynamic Library Commands
+
+Create shared library:
+
+gcc -shared -fPIC setc2_geometry.c -o libgeometry.so
+
+Compile:
+
+gcc setc2_main.c -L. -lgeometry -Wl,-rpath=. -lm -o dynamic_test
+
+Run:
+
+./dynamic_test

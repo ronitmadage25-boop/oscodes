@@ -1,0 +1,55 @@
+seta7_producer.c
+#include <stdio.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+int main() {
+
+    key_t key = 1234;
+
+    int shmid = shmget(key, sizeof(int)*5, 0666 | IPC_CREAT);
+
+    int *temp = (int*) shmat(shmid, NULL, 0);
+
+    for(int i=0; i<5; i++) {
+
+        temp[i] = 25 + i;
+
+        printf("Written: %d\n", temp[i]);
+    }
+
+    shmdt(temp);
+
+    return 0;
+}
+
+
+seta7_consumer.c
+#include <stdio.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+int main() {
+
+    key_t key = 1234;
+
+    int shmid = shmget(key, sizeof(int)*5, 0666);
+
+    int *temp = (int*) shmat(shmid, NULL, 0);
+
+    for(int i=0; i<5; i++)
+        printf("Read: %d\n", temp[i]);
+
+    shmdt(temp);
+
+    shmctl(shmid, IPC_RMID, NULL);
+
+    return 0;
+}
+
+Compile Producer
+gcc seta7_producer.c -o producer
+Compile Consumer
+gcc seta7_consumer.c -o consumer
+Run Producer First
+./producer
