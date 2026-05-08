@@ -1,0 +1,32 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/types.h>
+int main()
+{
+ int num;
+ printf("Enter a number: ");
+ scanf("%d",&num);
+ int id=fork();
+ if(id==0)
+ {
+ int temp=num;
+ int sum=0;
+ while(temp!=0)
+ {
+ sum+=temp%10;
+ temp=temp/10;
+ }
+ printf("Sum of digits (Child): %d\n",sum);
+ }
+ else
+ {
+ int fact=1;
+ for(int i=1;i<=num;i++)
+ {
+ fact=fact*i;
+ }
+ printf("Factorial (Parent): %d\n",fact);
+ }
+ return 0;
+}
