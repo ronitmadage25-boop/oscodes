@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <pthread.h>
+
+int arr[100];
+int part_sum[4];
+
+void* sum_array(void* arg) {
+
+    int part = *(int*)arg;
+
+    int start = part * 25;
+    int end = start + 25;
+
+    int sum = 0;
+
+    for(int i=start; i<end; i++)
+        sum += arr[i];
+
+    part_sum[part] = sum;
+
+    pthread_exit(0);
+}
+
+int main() {
+
+    pthread_t threads[4];
+    int part[4];
+
+    for(int i=0; i<100; i++)
+        arr[i] = i + 1;
+
+    for(int i=0; i<4; i++) {
+
+        part[i] = i;
+
+        pthread_create(&threads[i], NULL, sum_array, &part[i]);
+    }
+
+    for(int i=0; i<4; i++)
+        pthread_join(threads[i], NULL);
+
+    int total = 0;
+
+    for(int i=0; i<4; i++)
+        total += part_sum[i];
+
+    printf("Total Sum = %d\n", total);
+
+    return 0;
+}

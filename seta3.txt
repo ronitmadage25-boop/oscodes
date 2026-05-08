@@ -1,0 +1,47 @@
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
+int main() {
+
+    int src, dest, n;
+    char buffer[100];
+
+    src = open("source.txt", O_RDONLY);
+
+    if(src < 0) {
+        printf("Error opening source file\n");
+        return 1;
+    }
+
+    dest = open("destination.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+
+    if(dest < 0) {
+        printf("Error creating destination file\n");
+        return 1;
+    }
+
+    while((n = read(src, buffer, sizeof(buffer))) > 0) {
+
+        if(write(dest, buffer, n) != n) {
+            printf("Write error\n");
+            return 1;
+        }
+    }
+
+    close(src);
+    close(dest);
+
+    struct stat s1, s2;
+
+    stat("source.txt", &s1);
+    stat("destination.txt", &s2);
+
+    if(s1.st_size == s2.st_size)
+        printf("Copy successful\n");
+    else
+        printf("Copy failed\n");
+
+    return 0;
+}
