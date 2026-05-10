@@ -1,0 +1,177 @@
+EXP 4 — Cisco Packet Tracer
+Aim:
+
+Design and configure network using Cisco Packet Tracer.
+
+STEP 1 — Download Cisco Packet Tracer
+
+Open Browser:
+
+Search:
+
+Cisco Packet Tracer Download
+
+OR visit:
+
+https://www.netacad.com/courses/packet-tracer
+STEP 2 — Sign Up
+Create Cisco NetAcad account
+Login account
+STEP 3 — Download Software
+
+Download:
+
+Cisco Packet Tracer for Ubuntu/Windows
+STEP 4 — Install Packet Tracer
+Ubuntu Installation
+
+Open Terminal:
+
+Go to Downloads folder:
+
+cd Downloads
+Install File
+sudo dpkg -i PacketTracer*.deb
+Fix Missing Dependencies
+sudo apt --fix-broken install
+Open Packet Tracer
+packettracer
+STEP 5 — Create Network Topology
+Devices Required
+
+From bottom left panel drag:
+
+2 Routers
+2 PCs
+2 Switches
+STEP 6 — Connect Devices
+
+Use:
+
+Copper Straight Through Cable
+Connections
+Device 1	Device 2
+PC1	Switch1
+Switch1	R1
+R1	R2
+R2	Switch2
+Switch2	PC2
+STEP 7 — Configure IP Addresses
+Subnet Information
+Network	Address
+Subnet 1	192.168.1.32/27
+Subnet 2	192.168.1.64/27
+Subnet 3	192.168.1.96/27
+Subnet Mask
+255.255.255.224
+STEP 8 — Configure Router R1
+
+Click:
+
+R1 → Config
+Configure FastEthernet0/0
+Field	Value
+IP Address	192.168.1.33
+Subnet Mask	255.255.255.224
+Port Status	ON
+Configure Serial0/0/0
+Field	Value
+IP Address	192.168.1.65
+Subnet Mask	255.255.255.224
+Port Status	ON
+STEP 9 — Configure Router R2
+
+Click:
+
+R2 → Config
+Configure FastEthernet0/0
+Field	Value
+IP Address	192.168.1.97
+Subnet Mask	255.255.255.224
+Port Status	ON
+Configure Serial0/0/0
+Field	Value
+IP Address	192.168.1.94
+Subnet Mask	255.255.255.224
+Port Status	ON
+STEP 10 — Configure PC1
+
+Click:
+
+PC1 → Desktop → IP Configuration
+Enter
+Field	Value
+IP Address	192.168.1.62
+Subnet Mask	255.255.255.224
+Default Gateway	192.168.1.33
+STEP 11 — Configure PC2
+
+Click:
+
+PC2 → Desktop → IP Configuration
+Enter
+Field	Value
+IP Address	192.168.1.126
+Subnet Mask	255.255.255.224
+Default Gateway	192.168.1.97
+STEP 12 — Save Router Configuration
+
+On Router CLI:
+
+enable
+copy running-config startup-config
+STEP 13 — Verify Connectivity
+Ping Default Gateway from PC1
+
+Click:
+
+PC1 → Desktop → Command Prompt
+
+Run:
+
+ping 192.168.1.33
+Ping Router R2
+ping 192.168.1.97
+Test from PC2
+ping 192.168.1.62
+Expected Output
+Reply from...
+STEP 14 — Save Packet Tracer File
+
+Click:
+
+File → Save
+
+Save as:
+
+exp4.pkt
+Important Commands (CLI Method)
+Router Configuration Mode
+enable
+configure terminal
+Configure Interface
+interface fastethernet0/0
+Assign IP
+ip address 192.168.1.33 255.255.255.224
+Enable Port
+no shutdown
+Exit
+exit
+Reflection Answers
+1) Can devices ping each other?
+
+Initially:
+
+No
+
+After configuration:
+
+Yes
+2) What was missing?
+Proper IP configuration
+Default gateway
+Interface activation
+Routing configuration
+Result:
+
+Successfully designed, configured, and verified network topology using Cisco Packet Tracer.

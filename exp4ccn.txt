@@ -1,0 +1,259 @@
+EXP 4 — Wireshark HTTP Analysis (Complete From Scratch)
+Aim:
+
+Analyze HTTP protocol using Wireshark.
+
+STEP 1 — Install Wireshark
+Open Terminal
+Update System
+sudo apt update
+Install Wireshark
+sudo apt install wireshark
+STEP 2 — Permission Setup
+
+During installation:
+
+Select:
+
+YES
+
+for:
+
+Allow non-superusers to capture packets
+STEP 3 — Add User to Wireshark Group
+sudo usermod -aG wireshark $USER
+STEP 4 — Restart System
+reboot
+STEP 5 — Open Wireshark
+Command
+wireshark
+
+OR
+
+Open from:
+
+Applications → Wireshark
+STEP 6 — Select Network Interface
+
+After opening Wireshark:
+
+Choose:
+
+Wi-Fi Interface
+OR
+Ethernet Interface
+
+Usually:
+
+wlan0
+
+or
+
+eth0
+STEP 7 — Start Packet Capture
+
+Double click selected interface.
+
+Packet capture starts.
+
+STEP 8 — Apply HTTP Filter
+
+At top filter box type:
+
+http
+
+Press:
+
+Enter
+
+Now only HTTP packets visible.
+
+PART 1 — Basic HTTP GET Request
+Open Browser
+
+Open:
+
+http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file1.html
+STEP 9 — Observe Packets
+
+You will see:
+
+GET Request
+HTTP Response
+STEP 10 — Stop Capture
+
+Click:
+
+Red Stop Button
+STEP 11 — Analyze GET Request
+
+Click packet containing:
+
+GET /HTTP-wireshark-file1.html
+Expand HTTP Section
+
+Click arrow beside:
+
+Hypertext Transfer Protocol
+Observe These Fields
+HTTP Version
+HTTP/1.1
+Host
+gaia.cs.umass.edu
+User Agent
+
+Shows browser details.
+
+Example:
+
+Chrome / Firefox
+STEP 12 — Check Server Response
+
+Click:
+
+HTTP/1.1 200 OK
+Observe
+Status Code
+200 OK
+Content Type
+text/html
+Content Length
+
+Shows webpage size.
+
+Last Modified
+
+Shows webpage last update time.
+
+PART 2 — Conditional GET
+STEP 13 — Clear Browser Cache
+Chrome
+
+Press:
+
+Ctrl + Shift + Delete
+
+Clear browsing data.
+
+STEP 14 — Start New Capture
+
+Again open Wireshark.
+
+Apply filter:
+
+http
+STEP 15 — Open URL Twice
+http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file2.html
+
+Refresh page again quickly.
+
+STEP 16 — Observe Requests
+First Request
+
+Normal GET request.
+
+Second Request
+
+Check for:
+
+IF-MODIFIED-SINCE
+Observe Response
+Server Response
+304 Not Modified
+
+Means:
+
+File unchanged
+Browser uses cache
+PART 3 — Long HTTP Document
+STEP 17 — Start Capture Again
+
+Apply filter:
+
+http
+STEP 18 — Open URL
+http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file3.html
+STEP 19 — Observe TCP Segments
+
+Large webpage divided into:
+
+Multiple TCP packets
+
+Look for:
+
+TCP segment of a reassembled PDU
+STEP 20 — Follow TCP Stream
+
+Right click any HTTP packet.
+
+Click:
+
+Follow → TCP Stream
+Observe
+
+Complete:
+
+HTTP Request
+HTTP Response
+
+in single window.
+
+PART 4 — Embedded Objects
+STEP 21 — Start New Capture
+
+Apply:
+
+http
+STEP 22 — Open URL
+http://gaia.cs.umass.edu/wireshark-labs/HTTP-wireshark-file4.html
+Observe
+
+Browser sends:
+
+Multiple GET requests
+Separate requests for images
+Check
+Multiple IP addresses
+Parallel downloads
+PART 5 — HTTP Authentication
+STEP 23 — Start New Capture
+
+Apply filter:
+
+http
+STEP 24 — Open Protected URL
+http://gaia.cs.umass.edu/wireshark-labs/protected_pages/HTTP-wireshark-file5.html
+STEP 25 — Enter Credentials
+Username
+wireshark-students
+Password
+network
+STEP 26 — Observe Authorization Header
+
+Find:
+
+Authorization: Basic
+Observe
+
+Credentials encoded in:
+
+Base64
+
+NOT encrypted.
+
+Important HTTP Status Codes
+200 OK
+301 Moved Permanently
+304 Not Modified
+404 Not Found
+500 Internal Server Error
+Useful Filters
+Only HTTP
+http
+TCP Only
+tcp
+IP Address Filter
+ip.addr == 192.168.1.1
+Result:
+
+Successfully installed Wireshark and analyzed HTTP protocol packets using packet capture and filtering techniques.

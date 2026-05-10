@@ -1,0 +1,161 @@
+EXP 2 — Analyze Network Performance using Chrome DevTools
+Aim:
+Analyze network performance parameters using Chrome DevTools. 
+
+Steps
+1) Open Chrome DevTools
+Shortcut:
+Ctrl + Shift + I
+OR
+
+
+Right click on webpage
+
+
+Click on Inspect
+
+
+
+2) Open Network Tab
+
+
+Click on Network tab in DevTools
+
+
+
+3) Clear Previous Logs
+
+
+Click on clear button
+
+
+OR refresh page
+
+
+Shortcut:
+Ctrl + R
+
+4) Enable Network Throttling
+
+
+In Network tab
+
+
+Click on Online dropdown
+
+
+Select:
+
+
+Fast 3G
+
+
+Regular 3G
+
+
+Slow 3G
+
+
+Offline
+
+
+
+5) Reload Website
+
+
+Refresh webpage after selecting network speed
+
+
+Observe:
+
+
+Page loading speed
+
+
+Images loading
+
+
+CSS/JS loading time
+
+
+
+Analyze Requests
+Check Following Things:
+1) Waterfall View
+Shows loading time of each resource.
+2) Status Code
+Example:
+200 = Success404 = Not Found500 = Server Error
+3) Size
+Shows resource size like:
+
+
+Images
+
+
+CSS
+
+
+JS files
+
+
+
+Performance Recording
+Steps:
+
+
+Open Performance tab
+
+
+Click on Record button
+
+
+Refresh webpage
+
+
+Stop recording after page loads
+
+
+
+Metrics Observed
+
+
+DOMContentLoaded
+
+
+Load Time
+
+
+TTFB (Time To First Byte)
+
+
+Rendering Time
+
+
+
+Common Bottlenecks
+1) Large Images
+Large files increase loading time.
+2) Too Many Requests
+More requests slow down website.
+3) No Caching
+Resources reload again and again.
+
+Optimization
+
+
+Compress images
+
+
+Minify CSS/JS
+
+
+Use caching
+
+
+Use lazy loading
+
+
+
+Result:
+Successfully analyzed webpage network performance using Chrome DevTools.

@@ -1,0 +1,136 @@
+EXP 7 — Configuring Firewall in Linux using iptables
+Aim:
+
+Configure and manage firewall rules using iptables in Linux.
+
+Requirements
+Ubuntu/Linux System
+Root/Sudo Access
+Internet Connection
+STEP 1 — Update System
+sudo apt update
+STEP 2 — Install iptables
+sudo apt install iptables
+STEP 3 — Check iptables Version
+iptables --version
+STEP 4 — View Current Rules
+List All Rules
+sudo iptables -L
+Verbose Output
+sudo iptables -L -v
+View INPUT Chain
+sudo iptables -v -L INPUT
+View NAT Table
+sudo iptables -L -t nat
+View Mangle Table
+sudo iptables -L -t mangle
+STEP 5 — Flush Existing Rules
+sudo iptables --flush
+STEP 6 — Create Custom Chain
+sudo iptables -N mychain
+STEP 7 — View Custom Chain
+sudo iptables -L mychain
+STEP 8 — Delete Custom Chain
+sudo iptables -X mychain
+STEP 9 — Ping Test
+Ping Another System
+ping -c 2 google.com
+STEP 10 — Block ICMP Packets
+sudo iptables -A OUTPUT -o eth0 -p icmp -j DROP
+Test Ping Again
+ping -c 2 google.com
+
+Expected:
+
+Operation not permitted
+STEP 11 — View OUTPUT Rules
+sudo iptables -vL OUTPUT
+STEP 12 — Remove All Rules
+sudo iptables -F
+STEP 13 — Block Ping from Specific IP
+sudo iptables -A INPUT -i eth0 -p icmp --source 172.16.0.44 -j DROP
+STEP 14 — View Rules with Numbers
+sudo iptables -vL INPUT --line-numbers
+STEP 15 — Delete Specific Rule
+
+Example:
+
+sudo iptables -D INPUT 1
+STEP 16 — Restart FTP Service
+sudo service vsftpd restart
+STEP 17 — Block FTP Traffic
+
+FTP Port:
+
+21
+
+Command:
+
+sudo iptables -A INPUT -i eth0 -s 172.16.0.50 -p tcp --dport 21 -j DROP
+STEP 18 — Enable Apache Web Server
+sudo apt install apache2
+Start Apache
+sudo systemctl start apache2
+STEP 19 — Block HTTP Traffic
+
+HTTP Port:
+
+80
+
+Command:
+
+sudo iptables -A INPUT -p tcp --dport 80 -s 172.16.0.100 -j DROP
+STEP 20 — NAT / Packet Forwarding
+Add NAT Rule
+sudo iptables --table nat -A POSTROUTING -o eth0 -j MASQUERADE
+Enable IP Forwarding
+echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
+Permanent IP Forwarding
+sudo nano /etc/sysctl.conf
+
+Add:
+
+net.ipv4.ip_forward = 1
+Apply Changes
+sudo sysctl -p
+STEP 21 — Save iptables Rules
+sudo iptables-save > /etc/iptables.rules
+Restore Rules
+sudo iptables-restore < /etc/iptables.rules
+Useful Commands
+Command	Purpose
+iptables -L	List Rules
+iptables -F	Flush Rules
+iptables -A	Append Rule
+iptables -D	Delete Rule
+iptables -N	Create Chain
+iptables -X	Delete Chain
+Important Ports
+Service	Port
+HTTP	80
+HTTPS	443
+FTP	21
+SSH	22
+DNS	53
+Answers to Questions
+1) Verbose NAT Command
+sudo iptables -L -t nat -v
+2) Display OUTPUT Chain
+sudo iptables -L OUTPUT
+3) FTP Port
+21
+4) Create NAT Chain
+sudo iptables -t nat -N mynat-chain
+5) Firewall Tools
+UFW
+Firewalld
+GUFW
+6) Block HTTP Traffic
+sudo iptables -A INPUT -p tcp --dport 80 -s 172.16.0.100 -j DROP
+Plain Speak Meaning
+
+“Drop all HTTP packets coming from IP 172.16.0.100 to this machine.”
+
+Result:
+
+Successfully configured firewall rules, packet filtering, NAT, and traffic blocking using iptables in Linux.

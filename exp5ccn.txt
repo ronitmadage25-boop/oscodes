@@ -1,0 +1,216 @@
+EXP 5 — Apache Web Server Configuration
+Aim:
+
+Install and configure Apache Web Server with name-based and IP-based virtual hosting on Ubuntu Linux 22.04.
+
+System Requirements
+Ubuntu Linux 22.04
+Internet Connection
+Sudo Access
+Minimum 4GB RAM
+STEP 1 — Update System
+
+Open Terminal and run:
+
+sudo apt update
+STEP 2 — Install Apache Server
+sudo apt install apache2
+
+Press:
+
+Y
+
+when asked.
+
+STEP 3 — Check Apache Status
+sudo systemctl status apache2
+Expected Output
+active (running)
+STEP 4 — Open Browser
+
+Visit:
+
+http://localhost
+
+OR
+
+http://127.0.0.1
+
+Apache default page should open.
+
+STEP 5 — Create Website Directories
+sudo mkdir /var/www/site1
+sudo mkdir /var/www/site2
+STEP 6 — Give Permissions
+sudo chown -R www-data:www-data /var/www/site1
+sudo chown -R www-data:www-data /var/www/site2
+STEP 7 — Create HTML Pages
+Site1 Page
+sudo nano /var/www/site1/index.html
+
+Paste:
+
+<h1>Welcome to Site1</h1>
+
+Save:
+
+CTRL + O
+Enter
+CTRL + X
+Site2 Page
+sudo nano /var/www/site2/index.html
+
+Paste:
+
+<h1>Welcome to Site2</h1>
+
+Save file.
+
+STEP 8 — Create Virtual Host File
+Site1 Config
+sudo nano /etc/apache2/sites-available/site1.conf
+
+Paste:
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@site1.com
+    ServerName site1.com
+    DocumentRoot /var/www/site1
+
+    ErrorLog ${APACHE_LOG_DIR}/site1_error.log
+    CustomLog ${APACHE_LOG_DIR}/site1_access.log combined
+</VirtualHost>
+
+Save and exit.
+
+Site2 Config
+sudo nano /etc/apache2/sites-available/site2.conf
+
+Paste:
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@site2.com
+    ServerName site2.com
+    DocumentRoot /var/www/site2
+
+    ErrorLog ${APACHE_LOG_DIR}/site2_error.log
+    CustomLog ${APACHE_LOG_DIR}/site2_access.log combined
+</VirtualHost>
+
+Save and exit.
+
+STEP 9 — Enable Virtual Hosts
+sudo a2ensite site1.conf
+sudo a2ensite site2.conf
+STEP 10 — Restart Apache
+sudo systemctl restart apache2
+STEP 11 — Edit Hosts File
+sudo nano /etc/hosts
+
+Add:
+
+127.0.0.1 site1.com
+127.0.0.1 site2.com
+
+Save and exit.
+
+STEP 12 — Test Name-Based Hosting
+
+Open Browser:
+
+http://site1.com
+
+Shows:
+
+Welcome to Site1
+
+Open:
+
+http://site2.com
+
+Shows:
+
+Welcome to Site2
+STEP 13 — Configure IP-Based Hosting
+Open Network Config
+sudo nano /etc/netplan/01-network-manager-all.yaml
+Add Extra IP Addresses
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    ens33:
+      dhcp4: true
+      addresses:
+        - 192.168.1.2/24
+        - 192.168.1.3/24
+Apply Changes
+sudo netplan apply
+STEP 14 — Create IP Virtual Host Config
+Site1 IP Config
+sudo nano /etc/apache2/sites-available/site1_ip.conf
+
+Paste:
+
+<VirtualHost 192.168.1.2:80>
+    ServerAdmin webmaster@site1.com
+    ServerName site1.com
+    DocumentRoot /var/www/site1
+
+    ErrorLog ${APACHE_LOG_DIR}/site1_error.log
+    CustomLog ${APACHE_LOG_DIR}/site1_access.log combined
+</VirtualHost>
+Site2 IP Config
+sudo nano /etc/apache2/sites-available/site2_ip.conf
+
+Paste:
+
+<VirtualHost 192.168.1.3:80>
+    ServerAdmin webmaster@site2.com
+    ServerName site2.com
+    DocumentRoot /var/www/site2
+
+    ErrorLog ${APACHE_LOG_DIR}/site2_error.log
+    CustomLog ${APACHE_LOG_DIR}/site2_access.log combined
+</VirtualHost>
+STEP 15 — Enable IP Configurations
+sudo a2ensite site1_ip.conf
+sudo a2ensite site2_ip.conf
+STEP 16 — Restart Apache
+sudo systemctl restart apache2
+STEP 17 — Test IP Hosting
+
+Open Browser:
+
+http://192.168.1.2
+
+and
+
+http://192.168.1.3
+STEP 18 — Check Apache Logs
+Error Log
+sudo tail -f /var/log/apache2/error.log
+Access Log
+sudo tail -f /var/log/apache2/access.log
+STEP 19 — Check Configuration Errors
+sudo apachectl configtest
+
+Expected:
+
+Syntax OK
+STEP 20 — View Virtual Hosts
+sudo apache2ctl -S
+Firewall Configuration
+
+Allow Apache:
+
+sudo ufw allow 'Apache'
+Restart Apache Anytime
+sudo systemctl restart apache2
+Stop Apache
+sudo systemctl stop apache2
+Start Apache
+sudo systemctl start apache2
+Result:
+
+Successfully installed and configured Apache Web Server with name-based and IP-based virtual hosting on Ubuntu Linux 22.04.

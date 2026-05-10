@@ -1,0 +1,91 @@
+EXP 1 — Networking Utilities
+Aim:
+
+Use basic networking utilities in Linux.
+
+Commands Used
+1) ping Command
+Purpose:
+
+Check network connection and response time.
+
+Command:
+ping google.com
+Stop Command:
+Ctrl + C
+What It Shows:
+Internet working or not
+Round trip time (ms)
+Packet loss
+2) nslookup Command
+Purpose:
+
+Find IP address of website/domain.
+
+Command:
+nslookup google.com
+Output:
+
+Shows IP address of website.
+
+3) ifconfig Command
+Purpose:
+
+Show network interface details.
+
+Command:
+ifconfig
+Output:
+IP Address
+MAC Address
+RX/TX packets
+4) netstat Command
+Purpose:
+
+Show active network connections.
+
+Command:
+netstat -t -n
+For Listening Ports:
+netstat -t -n -l
+5) traceroute Command
+Purpose:
+
+Show path taken by packets.
+
+Install Command:
+sudo apt-get install traceroute
+Run Command:
+traceroute google.com
+Output:
+
+Shows routers/hops between source and destination.
+
+Exercise 1
+Command:
+ping www.ox.ac.uk
+
+Try:
+
+ping www.uw.edu
+ping berkeley.edu
+ping www.u-tokyo.ac.jp
+Observation:
+Nearby servers = low ping
+Far servers = high ping
+
+Example:
+
+India to Japan → lower delay
+India to England/USA → higher delay
+Exercise 2
+Commands:
+traceroute math.hws.edu
+traceroute www.hws.edu
+Observation:
+
+Different routes/hops may appear because servers are different.
+
+Result:
+
+Successfully studied and used networking utility commands in Linux.

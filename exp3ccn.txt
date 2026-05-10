@@ -1,0 +1,264 @@
+EXP 3 — Network Socket Programming in C
+Aim:
+
+Implement client-server socket programming in C language.
+
+PART 1 — Simple Client Server Program
+Server Code (server.c)
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+int main() {
+    int server_fd, client_socket;
+    struct sockaddr_in server_addr;
+    char buffer[1024];
+    int chars = 0, words = 1, sentences = 0;
+
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(8080);
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+
+    bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
+
+    listen(server_fd, 5);
+
+    printf("Server Waiting...\n");
+
+    client_socket = accept(server_fd, NULL, NULL);
+
+    recv(client_socket, buffer, sizeof(buffer), 0);
+
+    printf("Received Paragraph:\n%s\n", buffer);
+
+    for(int i = 0; buffer[i] != '\0'; i++) {
+        chars++;
+
+        if(buffer[i] == ' ')
+            words++;
+
+        if(buffer[i] == '.')
+            sentences++;
+    }
+
+    char result[200];
+
+    sprintf(result,
+            "Characters = %d\nWords = %d\nSentences = %d",
+            chars, words, sentences);
+
+    send(client_socket, result, strlen(result), 0);
+
+    close(client_socket);
+    close(server_fd);
+
+    return 0;
+}
+Client Code (client.c)
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+int main() {
+
+    int sock;
+    struct sockaddr_in server_addr;
+    char message[1024];
+    char buffer[1024];
+
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(8080);
+    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr));
+
+    printf("Enter Paragraph:\n");
+    fgets(message, sizeof(message), stdin);
+
+    send(sock, message, strlen(message), 0);
+
+    recv(sock, buffer, sizeof(buffer), 0);
+
+    printf("\nServer Response:\n%s\n", buffer);
+
+    close(sock);
+
+    return 0;
+}
+Compile Commands
+Compile Server
+gcc server.c -o server
+Compile Client
+gcc client.c -o client
+Run Commands
+Step 1 — Run Server
+./server
+Step 2 — Open New Terminal
+
+Run Client:
+
+./client
+Sample Input
+Hello world. This is socket programming.
+Sample Output
+Characters = 42
+Words = 6
+Sentences = 2
+PART 2 — Concurrent Server
+Change in Server
+
+Add:
+
+#include <sys/types.h>
+#include <sys/wait.h>
+
+Replace:
+
+client_socket = accept(server_fd, NULL, NULL);
+
+With:
+
+while(1) {
+
+    client_socket = accept(server_fd, NULL, NULL);
+
+    if(fork() == 0) {
+
+        recv(client_socket, buffer, sizeof(buffer), 0);
+
+        chars = 0;
+        words = 1;
+        sentences = 0;
+
+        for(int i = 0; buffer[i] != '\0'; i++) {
+
+            chars++;
+
+            if(buffer[i] == ' ')
+                words++;
+
+            if(buffer[i] == '.')
+                sentences++;
+        }
+
+        char result[200];
+
+        sprintf(result,
+        "Characters = %d\nWords = %d\nSentences = %d",
+        chars, words, sentences);
+
+        send(client_socket, result, strlen(result), 0);
+
+        close(client_socket);
+
+        exit(0);
+    }
+
+    close(client_socket);
+}
+PART 3 — Chat Server
+Features
+Two clients chat through server
+Interactive communication
+Chat Server (chat_server.c)
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+int main() {
+
+    int server_fd, c1, c2;
+    struct sockaddr_in server_addr;
+    char buffer[1024];
+
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(9000);
+    server_addr.sin_addr.s_addr = INADDR_ANY;
+
+    bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr));
+
+    listen(server_fd, 2);
+
+    printf("Waiting for Clients...\n");
+
+    c1 = accept(server_fd, NULL, NULL);
+    printf("Client 1 Connected\n");
+
+    c2 = accept(server_fd, NULL, NULL);
+    printf("Client 2 Connected\n");
+
+    while(1) {
+
+        recv(c1, buffer, sizeof(buffer), 0);
+        send(c2, buffer, strlen(buffer), 0);
+
+        recv(c2, buffer, sizeof(buffer), 0);
+        send(c1, buffer, strlen(buffer), 0);
+    }
+
+    close(c1);
+    close(c2);
+    close(server_fd);
+
+    return 0;
+}
+Chat Client (chat_client.c)
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+int main() {
+
+    int sock;
+    struct sockaddr_in server_addr;
+    char message[1024], buffer[1024];
+
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(9000);
+    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr));
+
+    while(1) {
+
+        printf("You: ");
+        fgets(message, sizeof(message), stdin);
+
+        send(sock, message, strlen(message), 0);
+
+        recv(sock, buffer, sizeof(buffer), 0);
+
+        printf("Message: %s\n", buffer);
+    }
+
+    close(sock);
+
+    return 0;
+}
+Compile Chat Programs
+gcc chat_server.c -o chat_server
+gcc chat_client.c -o chat_client
+Run Chat Programs
+Terminal 1
+./chat_server
+Terminal 2
+./chat_client
+Terminal 3
+./chat_client
+Result:
+
+Successfully implemented socket programming and client-server communication in C language.

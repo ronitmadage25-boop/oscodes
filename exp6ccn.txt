@@ -1,0 +1,175 @@
+EXP 8 — Network Mapping using Nmap
+Aim:
+
+Perform network mapping and security scanning using Nmap.
+
+Requirements
+Ubuntu/Linux System
+Internet Connection
+Nmap Installed
+STEP 1 — Update System
+sudo apt update
+STEP 2 — Install Nmap
+sudo apt install nmap
+
+Press:
+
+Y
+
+when asked.
+
+STEP 3 — Check Nmap Installation
+nmap --version
+Expected Output
+
+Shows:
+
+Nmap version
+STEP 4 — Find Your IP Address
+ifconfig
+
+OR
+
+ip a
+Basic Nmap Syntax
+nmap [options] target
+TASK 1 — Ping Scan
+Check Active Host
+nmap -sn 192.168.1.1
+Scan Entire Network
+nmap -sn 192.168.1.0/24
+Result
+
+Shows:
+
+Active hosts
+IP addresses
+TASK 2 — TCP SYN Scan
+sudo nmap -sS 192.168.1.1
+Purpose
+
+Detect:
+
+Open ports
+Closed ports
+TASK 3 — Service Version Detection
+sudo nmap -sV 192.168.1.1
+Output
+
+Shows:
+
+Service names
+Versions
+
+Example:
+
+Apache 2.4
+OpenSSH 8.2
+TASK 4 — Operating System Detection
+sudo nmap -O 192.168.1.1
+Output
+
+Detects:
+
+Linux
+Windows
+Ubuntu
+Kernel Version
+TASK 5 — Aggressive Scan
+sudo nmap -A 192.168.1.1
+Includes
+OS detection
+Version detection
+Script scanning
+Traceroute
+TASK 6 — MAC Address Detection
+sudo nmap -sn 192.168.1.1
+Output
+
+Shows:
+
+MAC Address
+TASK 7 — Detect HTTP/HTTPS
+nmap -p 80,443 192.168.1.1
+Ports
+80 = HTTP
+443 = HTTPS
+TASK 8 — Detect FTP Service
+nmap -p 21 192.168.1.1
+FTP Port
+21
+TASK 9 — Detect SSH Version
+nmap -sV -p 22 192.168.1.1
+SSH Port
+22
+TASK 10 — Detect Telnet Services
+nmap -p 23 192.168.1.0/24
+Telnet Port
+23
+TASK 11 — Detect SQL Services
+nmap -p 1433,3306 192.168.1.0/24
+Ports
+1433 = MSSQL
+3306 = MySQL
+TASK 12 — Detect RDP
+nmap -p 3389 192.168.1.1
+RDP Port
+3389
+TASK 13 — Detect DNS Service
+nmap -p 53 192.168.1.0/24
+DNS Port
+53
+TASK 14 — Detect SNMP
+nmap -p 161 192.168.1.1
+SNMP Port
+161
+TASK 15 — Detect SMTP Servers
+nmap -p 25 192.168.1.0/24
+SMTP Port
+25
+TASK 16 — Anonymous FTP Login Check
+sudo nmap --script ftp-anon -p 21 192.168.1.1
+TASK 17 — Detect Apache Vulnerability
+sudo nmap -sV --script http-vuln* 192.168.1.1
+TASK 18 — Detect NFS Shares
+nmap -p 2049 192.168.1.1
+NFS Port
+2049
+TASK 19 — Detect MySQL Servers
+nmap -p 3306 192.168.1.0/24
+TASK 20 — Detect RPC Service
+nmap -sR 192.168.1.1
+TASK 21 — Detect VNC Ports
+nmap -p 5900 192.168.1.1
+VNC Port
+5900
+TASK 22 — Detect SSH on Non-Default Ports
+nmap -p- -sV 192.168.1.1
+Explanation
+-p- → scans all ports
+-sV → service version detection
+Nmap Script Example
+Create Script File
+nano scan.sh
+Add Script
+#!/bin/bash
+
+nmap -sV 192.168.1.1
+Give Permission
+chmod +x scan.sh
+Run Script
+./scan.sh
+Useful Nmap Options
+Option	Purpose
+-sn	Ping Scan
+-sS	SYN Scan
+-sV	Version Detection
+-O	OS Detection
+-A	Aggressive Scan
+-p	Port Scan
+--script	NSE Script
+Stop Running Scan
+CTRL + C
+Result:
+
+Successfully performed network mapping, port scanning, service detection, and operating system detection using Nmap.

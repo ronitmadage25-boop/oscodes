@@ -1,0 +1,156 @@
+EXP 7 — Packet Crafting using Scapy (Perfect Practical)
+Aim:
+
+Packet Crafting using Scapy
+
+STEP 1 — Update Ubuntu
+
+Open Terminal:
+
+sudo apt update
+STEP 2 — Install Python
+sudo apt install python3
+STEP 3 — Install pip
+sudo apt install python3-pip
+STEP 4 — Install Scapy
+pip3 install scapy
+STEP 5 — Verify Scapy
+python3
+
+Type:
+
+from scapy.all import *
+
+If no error → Scapy installed successfully.
+
+Exit:
+
+exit()
+PART 1 — ICMP Ping Packet
+STEP 6 — Create Python File
+nano ping.py
+STEP 7 — Paste Code
+from scapy.all import *
+
+packet = IP(dst="8.8.8.8")/ICMP()
+
+print("Sending ICMP Packet...")
+
+reply = sr1(packet)
+
+reply.show()
+STEP 8 — Save File
+CTRL + O
+Enter
+CTRL + X
+STEP 9 — Run Program
+sudo python3 ping.py
+Expected Output
+ICMP Echo Reply
+Source IP
+Destination IP
+PART 2 — UDP Datagram
+STEP 10 — Create File
+nano udp.py
+STEP 11 — Paste Code
+from scapy.all import *
+
+packet = IP(dst="127.0.0.1")/UDP(dport=53)/"Hello UDP"
+
+print("Sending UDP Packet...")
+
+send(packet)
+
+print("Packet Sent")
+STEP 12 — Run Code
+sudo python3 udp.py
+PART 3 — DNS Query
+STEP 13 — Create File
+nano dns.py
+STEP 14 — Paste Code
+from scapy.all import *
+
+packet = IP(dst="8.8.8.8")/UDP(dport=53)/DNS(
+    rd=1,
+    qd=DNSQR(qname="google.com")
+)
+
+print("Sending DNS Query...")
+
+answer = sr1(packet)
+
+answer.show()
+STEP 15 — Run Code
+sudo python3 dns.py
+Expected Output
+
+Displays:
+
+DNS Response
+Google IP Address
+PART 4 — HTTP GET Request
+STEP 16 — Create File
+nano http.py
+STEP 17 — Paste Code
+from scapy.all import *
+
+packet = IP(dst="example.com")/TCP(dport=80)/"GET / HTTP/1.1\r\nHost: example.com\r\n\r\n"
+
+print("Sending HTTP GET Request...")
+
+send(packet)
+
+print("Request Sent")
+STEP 18 — Run Code
+sudo python3 http.py
+PART 5 — Traceroute
+STEP 19 — Create File
+nano trace.py
+STEP 20 — Paste Code
+from scapy.all import *
+
+print("Running Traceroute...")
+
+traceroute(["google.com"])
+STEP 21 — Run Code
+sudo python3 trace.py
+Expected Output
+
+Shows:
+
+Routers
+Hops
+IP addresses
+OPTIONAL — Packet Sniffing
+STEP 22 — Create File
+nano sniff.py
+STEP 23 — Paste Code
+from scapy.all import *
+
+print("Sniffing 5 Packets...")
+
+packets = sniff(count=5)
+
+packets.summary()
+STEP 24 — Run Code
+sudo python3 sniff.py
+Important Commands
+Command	Purpose
+send()	Send packet
+sr1()	Send and receive packet
+show()	Show packet details
+sniff()	Capture packets
+summary()	Packet summary
+Important Note
+
+Take screenshots of:
+
+Code
+Terminal output
+Packet details
+
+for practical submission.
+
+Result:
+
+Successfully crafted and analyzed ICMP, UDP, DNS, HTTP, and Traceroute packets using Scapy in Python.
