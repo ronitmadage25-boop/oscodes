@@ -58,6 +58,14 @@ public class KMP {
         System.out.print("Enter Pattern: ");
         String pattern = sc.nextLine();
 
+        long startTime = System.nanoTime();
+
         search(text, pattern);
+
+        long endTime = System.nanoTime();
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }

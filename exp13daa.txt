@@ -39,6 +39,14 @@ public class SumOfSubsets {
 
         System.out.println("Possible Subsets:");
 
+        long startTime = System.nanoTime();
+
         findSubsets(arr, 0, sum, new ArrayList<Integer>());
+
+        long endTime = System.nanoTime();
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }

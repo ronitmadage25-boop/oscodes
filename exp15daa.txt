@@ -16,6 +16,8 @@ public class Puzzle15 {
             }
         }
 
+        long startTime = System.nanoTime();
+
         System.out.println("Puzzle Matrix:");
 
         for (int i = 0; i < 4; i++) {
@@ -26,5 +28,11 @@ public class Puzzle15 {
         }
 
         System.out.println("15 Puzzle uses Branch and Bound technique.");
+
+        long endTime = System.nanoTime();
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }

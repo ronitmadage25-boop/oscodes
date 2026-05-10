@@ -41,6 +41,8 @@ public class HuffmanCoding {
             pq.add(new Node(ch, freq));
         }
 
+        long startTime = System.nanoTime();
+
         while (pq.size() > 1) {
             Node left = pq.poll();
             Node right = pq.poll();
@@ -54,7 +56,13 @@ public class HuffmanCoding {
 
         Node root = pq.poll();
 
+        long endTime = System.nanoTime();
+
         System.out.println("Huffman Codes:");
         print(root, "");
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }

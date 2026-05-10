@@ -16,6 +16,8 @@ public class RabinKarp {
 
         boolean found = false;
 
+        long startTime = System.nanoTime();
+
         for (int i = 0; i <= n - m; i++) {
             String sub = text.substring(i, i + m);
 
@@ -25,7 +27,13 @@ public class RabinKarp {
             }
         }
 
+        long endTime = System.nanoTime();
+
         if (!found)
             System.out.println("Pattern not found");
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }

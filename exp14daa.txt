@@ -41,7 +41,13 @@ public class EightQueens {
 
     public static void main(String[] args) {
 
-        if (solve(0)) {
+        long startTime = System.nanoTime();
+
+        boolean result = solve(0);
+
+        long endTime = System.nanoTime();
+
+        if (result) {
             System.out.println("Solution Matrix:");
 
             for (int i = 0; i < 8; i++) {
@@ -53,5 +59,9 @@ public class EightQueens {
         } else {
             System.out.println("No Solution Found");
         }
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }

@@ -25,6 +25,8 @@ public class VertexCover {
 
         System.out.println("Approximate Vertex Cover:");
 
+        long startTime = System.nanoTime();
+
         for (int i = 0; i < E; i++) {
 
             int u = edges[i][0];
@@ -37,5 +39,11 @@ public class VertexCover {
                 System.out.print(u + " " + v + " ");
             }
         }
+
+        long endTime = System.nanoTime();
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("\nRunning Time: " + runningTime + " ns");
     }
 }

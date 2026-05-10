@@ -43,6 +43,8 @@ public class BipartiteMatching {
 
         int result = 0;
 
+        long startTime = System.nanoTime();
+
         for (int u = 0; u < m; u++) {
             boolean seen[] = new boolean[n];
 
@@ -50,6 +52,12 @@ public class BipartiteMatching {
                 result++;
         }
 
+        long endTime = System.nanoTime();
+
         System.out.println("Maximum Matching: " + result);
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }

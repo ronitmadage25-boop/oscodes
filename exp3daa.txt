@@ -15,6 +15,8 @@ public class MatrixChain {
 
         int dp[][] = new int[n + 1][n + 1];
 
+        long startTime = System.nanoTime();
+
         for (int len = 2; len <= n; len++) {
             for (int i = 1; i <= n - len + 1; i++) {
                 int j = i + len - 1;
@@ -29,6 +31,12 @@ public class MatrixChain {
             }
         }
 
+        long endTime = System.nanoTime();
+
         System.out.println("Minimum multiplications: " + dp[1][n]);
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }

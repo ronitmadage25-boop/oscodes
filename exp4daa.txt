@@ -23,6 +23,8 @@ public class Knapsack01 {
 
         int dp[][] = new int[n + 1][W + 1];
 
+        long startTime = System.nanoTime();
+
         for (int i = 1; i <= n; i++) {
             for (int w = 1; w <= W; w++) {
                 if (wt[i - 1] <= w)
@@ -32,6 +34,12 @@ public class Knapsack01 {
             }
         }
 
+        long endTime = System.nanoTime();
+
         System.out.println("Maximum Profit: " + dp[n][W]);
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }

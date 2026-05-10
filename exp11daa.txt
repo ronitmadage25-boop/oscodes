@@ -50,6 +50,8 @@ public class FordFulkerson {
         int parent[] = new int[n];
         int maxFlow = 0;
 
+        long startTime = System.nanoTime();
+
         while (bfs(graph, source, sink, parent)) {
             int pathFlow = Integer.MAX_VALUE;
 
@@ -67,6 +69,12 @@ public class FordFulkerson {
             maxFlow += pathFlow;
         }
 
+        long endTime = System.nanoTime();
+
         System.out.println("Maximum Flow is: " + maxFlow);
+
+        long runningTime = endTime - startTime;
+
+        System.out.println("Running Time: " + runningTime + " ns");
     }
 }
