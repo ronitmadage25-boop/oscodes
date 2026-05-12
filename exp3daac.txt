@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <limits.h>
+#include <time.h>
+
+int main() {
+    int n, i, j, k, len;
+
+    printf("Enter number of matrices: ");
+    scanf("%d", &n);
+
+    int arr[n + 1];
+
+    printf("Enter dimensions:\n");
+    for (i = 0; i <= n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    int dp[n + 1][n + 1];
+
+    for (i = 0; i <= n; i++) {
+        for (j = 0; j <= n; j++) {
+            dp[i][j] = 0;
+        }
+    }
+
+    clock_t start, end;
+
+    start = clock();
+
+    for (len = 2; len <= n; len++) {
+
+        for (i = 1; i <= n - len + 1; i++) {
+
+            j = i + len - 1;
+
+            dp[i][j] = INT_MAX;
+
+            for (k = i; k < j; k++) {
+
+                int cost = dp[i][k] + dp[k + 1][j]
+                         + arr[i - 1] * arr[k] * arr[j];
+
+                if (cost < dp[i][j]) {
+                    dp[i][j] = cost;
+                }
+            }
+        }
+    }
+
+    end = clock();
+
+    printf("Minimum multiplications: %d\n", dp[1][n]);
+
+    double runningTime = ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    printf("Running Time: %f seconds\n", runningTime);
+
+    return 0;
+}

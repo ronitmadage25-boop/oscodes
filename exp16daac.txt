@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <time.h>
+
+int main() {
+
+    int V, E, i;
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &V);
+
+    printf("Enter number of edges: ");
+    scanf("%d", &E);
+
+    int edges[E][2];
+
+    printf("Enter edges:\n");
+
+    for (i = 0; i < E; i++) {
+
+        scanf("%d%d",
+              &edges[i][0],
+              &edges[i][1]);
+    }
+
+    bool visited[V];
+
+    for (i = 0; i < V; i++) {
+        visited[i] = false;
+    }
+
+    printf("Approximate Vertex Cover:\n");
+
+    clock_t start, end;
+
+    start = clock();
+
+    for (i = 0; i < E; i++) {
+
+        int u = edges[i][0];
+        int v = edges[i][1];
+
+        if (!visited[u] && !visited[v]) {
+
+            visited[u] = true;
+            visited[v] = true;
+
+            printf("%d %d ", u, v);
+        }
+    }
+
+    end = clock();
+
+    double runningTime =
+        ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    printf("\nRunning Time: %f seconds\n",
+           runningTime);
+
+    return 0;
+}

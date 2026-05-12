@@ -1,0 +1,125 @@
+#include <stdio.h>
+#include <limits.h>
+#include <stdbool.h>
+#include <time.h>
+
+int queue[100], front, rear;
+
+void enqueue(int x) {
+    queue[++rear] = x;
+}
+
+int dequeue() {
+    return queue[++front];
+}
+
+bool isEmpty() {
+    return front == rear;
+}
+
+bool bfs(int graph[100][100], int n,
+         int source, int sink, int parent[]) {
+
+    bool visited[100];
+
+    for (int i = 0; i < n; i++) {
+        visited[i] = false;
+    }
+
+    front = rear = -1;
+
+    enqueue(source);
+
+    visited[source] = true;
+    parent[source] = -1;
+
+    while (!isEmpty()) {
+
+        int u = dequeue();
+
+        for (int v = 0; v < n; v++) {
+
+            if (!visited[v] && graph[u][v] > 0) {
+
+                enqueue(v);
+
+                parent[v] = u;
+
+                visited[v] = true;
+            }
+        }
+    }
+
+    return visited[sink];
+}
+
+int main() {
+
+    int n, i, j;
+
+    printf("Enter number of vertices: ");
+    scanf("%d", &n);
+
+    int graph[100][100];
+
+    printf("Enter capacity matrix:\n");
+
+    for (i = 0; i < n; i++) {
+
+        for (j = 0; j < n; j++) {
+
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    int source, sink;
+
+    printf("Enter source vertex: ");
+    scanf("%d", &source);
+
+    printf("Enter sink vertex: ");
+    scanf("%d", &sink);
+
+    int parent[100];
+    int maxFlow = 0;
+
+    clock_t start, end;
+
+    start = clock();
+
+    while (bfs(graph, n, source, sink, parent)) {
+
+        int pathFlow = INT_MAX;
+
+        for (int v = sink; v != source; v = parent[v]) {
+
+            int u = parent[v];
+
+            if (graph[u][v] < pathFlow) {
+
+                pathFlow = graph[u][v];
+            }
+        }
+
+        for (int v = sink; v != source; v = parent[v]) {
+
+            int u = parent[v];
+
+            graph[u][v] -= pathFlow;
+            graph[v][u] += pathFlow;
+        }
+
+        maxFlow += pathFlow;
+    }
+
+    end = clock();
+
+    printf("Maximum Flow is: %d\n", maxFlow);
+
+    double runningTime =
+        ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    printf("Running Time: %f seconds\n", runningTime);
+
+    return 0;
+}

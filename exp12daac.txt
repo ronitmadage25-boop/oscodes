@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <time.h>
+
+bool bpm(bool graph[100][100], int m, int n,
+         int u, bool seen[], int matchR[]) {
+
+    for (int v = 0; v < n; v++) {
+
+        if (graph[u][v] && !seen[v]) {
+
+            seen[v] = true;
+
+            if (matchR[v] < 0 ||
+                bpm(graph, m, n, matchR[v], seen, matchR)) {
+
+                matchR[v] = u;
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+int main() {
+
+    int m, n, i, j;
+
+    printf("Enter number of applicants: ");
+    scanf("%d", &m);
+
+    printf("Enter number of jobs: ");
+    scanf("%d", &n);
+
+    bool graph[100][100];
+
+    printf("Enter adjacency matrix (0 or 1):\n");
+
+    for (i = 0; i < m; i++) {
+
+        for (j = 0; j < n; j++) {
+
+            int x;
+            scanf("%d", &x);
+
+            graph[i][j] = (x == 1);
+        }
+    }
+
+    int matchR[100];
+
+    for (i = 0; i < n; i++) {
+        matchR[i] = -1;
+    }
+
+    int result = 0;
+
+    clock_t start, end;
+
+    start = clock();
+
+    for (int u = 0; u < m; u++) {
+
+        bool seen[100];
+
+        for (i = 0; i < n; i++) {
+            seen[i] = false;
+        }
+
+        if (bpm(graph, m, n, u, seen, matchR)) {
+
+            result++;
+        }
+    }
+
+    end = clock();
+
+    printf("Maximum Matching: %d\n", result);
+
+    double runningTime =
+        ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    printf("Running Time: %f seconds\n", runningTime);
+
+    return 0;
+}

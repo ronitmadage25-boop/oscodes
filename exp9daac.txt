@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
+int main() {
+
+    char text[100], pattern[100];
+
+    printf("Enter Text: ");
+    fgets(text, sizeof(text), stdin);
+
+    printf("Enter Pattern: ");
+    fgets(pattern, sizeof(pattern), stdin);
+
+    text[strcspn(text, "\n")] = '\0';
+    pattern[strcspn(pattern, "\n")] = '\0';
+
+    int n = strlen(text);
+    int m = strlen(pattern);
+
+    int found = 0;
+
+    clock_t start, end;
+
+    start = clock();
+
+    for (int i = 0; i <= n - m; i++) {
+
+        int j;
+
+        for (j = 0; j < m; j++) {
+
+            if (text[i + j] != pattern[j]) {
+                break;
+            }
+        }
+
+        if (j == m) {
+            printf("Pattern found at position: %d\n", i);
+            found = 1;
+        }
+    }
+
+    end = clock();
+
+    if (!found) {
+        printf("Pattern not found\n");
+    }
+
+    double runningTime =
+        ((double)(end - start)) / CLOCKS_PER_SEC;
+
+    printf("Running Time: %f seconds\n", runningTime);
+
+    return 0;
+}
