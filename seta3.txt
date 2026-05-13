@@ -45,3 +45,8 @@ int main() {
 
     return 0;
 }
+
+
+
+nano source.txt
+in that write something hello  clto enter cltx
